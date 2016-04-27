@@ -1,14 +1,11 @@
+from Memory import Memory
 from Interpreter import Interpreter
 import time
 
-
-class MainApp(object):
+class TestClass(object):
     """description of class"""
-    
-
-
-    if __name__ == '__main__':
-
+    def test_one(self,benchmark):
+     
        i = Interpreter()
        f = open('input.bas', 'r')
        for line in f:   
@@ -21,4 +18,5 @@ class MainApp(object):
        i.run()
     
        print i.memory.variables
+       benchmark(time.sleep, 0.000001)
 

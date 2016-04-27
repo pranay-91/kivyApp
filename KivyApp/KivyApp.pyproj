@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>34fb028b-c6c2-492d-aa32-237caf4251dc</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>KivyApp.py</StartupFile>
+    <StartupFile>MainApp.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

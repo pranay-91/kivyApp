@@ -9,6 +9,9 @@ class Addition(Expression):
         super(Addition, self).__init__(lhs, '+', rhs)
     
     def compute(self, memory):
-        return memory.get_value(self.lhs) + memory.get_value(self.rhs)
+        # METHOD 1: STATIC TYPING
+        #return memory.get_value(self.lhs) + memory.get_value(self.rhs)
+        # METHOD 2: CONVERT STRINGS TO NUMBERS AT EVALUATION TIME
+        return int(memory.get_value(self.lhs)) + int(memory.get_value(self.rhs))
 
 
