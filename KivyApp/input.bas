@@ -1,4 +1,2 @@
 5 LET X = 5 + 2
-10 PRINT X
 20 LET X = X + 1
-30 PRINT X
