@@ -1,5 +1,6 @@
 
 import kivy
+from kivy.uix.anchorlayout import AnchorLayout
 kivy.require('1.0.6') # replace with your current kivy version !
 
 from kivy.app import App
@@ -14,6 +15,7 @@ class LetLayout(BoxLayout):
     def __init__(self, **kwargs):
         super(LetLayout,self).__init__(**kwargs)
         self.cols = 6
+        self.padding = 10
         self.add_widget(Label(text="LET"))
         
         self.variable_name = TextInput(multiline = False)
@@ -33,6 +35,16 @@ class LetLayout(BoxLayout):
         self.value3 = TextInput(multiline = False, text ="0")
         self.add_widget(self.value3)
 
+
+class PrintLayout(BoxLayout):
+    def __init__(self, **kwargs):
+        super(PrintLayout, self).__init__(**kwargs)
+        self.cols = 2
+        self.padding = 10
+        self.add_widget(Label(text="PRINT"))
+
+        self.value = TextInput(multiline = False)
+        self.add_widget(self.value)
 
 
 class LoginScreen(GridLayout):
@@ -65,23 +77,31 @@ class MainLayout(BoxLayout):
     def __init__(self, **kwargs):
         super(MainLayout, self).__init__(**kwargs)
         self.cols = 2
-        self.orientation = "horizontal"
+        self.orientation = "vertical"
         self.padding = 10
 
-        self.button = Button(text="LET")
-        self.add_widget(self.button)
+        #self.left_layout = AnchorLayout(anchor_x ='right', anchor_y='center')
+        self.left_layout = BoxLayout(orientation="vertical")
+        self.add_widget(self.left_layout)
+        self.let_button = Button(text="LET")
+        self.left_layout.add_widget(self.let_button)
         
+        self.print_button = Button(text="PRINT")
+        self.left_layout.add_widget(self.print_button) 
+
+        self.orientation = "horizontal"
         self.right_layout = BoxLayout(padding=10, orientation ="vertical")
         self.add_widget(self.right_layout)
        
+        self.let_button.bind(on_press =self.add_let)
+        self.print_button.bind(on_press = self.add_print)
 
-        self.button.bind(on_press =self.callback)
+    def add_let(self, instance):
+        self.right_layout.add_widget(LetLayout())
 
-    def callback(self, instance):
-        h_layout = LetLayout(padding = 10)
-        self.right_layout.add_widget(h_layout)
+    def add_print(self, instance):
+        self.right_layout.add_widget(PrintLayout())
 
-        
 
 class MyApp(App):
     def build(self):
