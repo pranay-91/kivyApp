@@ -16,6 +16,8 @@ class LetLayout(BoxLayout):
         super(LetLayout,self).__init__(**kwargs)
         self.cols = 6
         self.padding = 10
+        self.height = 100
+
         self.add_widget(Label(text="LET"))
         
         self.variable_name = TextInput(multiline = False)
@@ -41,6 +43,7 @@ class PrintLayout(BoxLayout):
         super(PrintLayout, self).__init__(**kwargs)
         self.cols = 2
         self.padding = 10
+        self.height =100
         self.add_widget(Label(text="PRINT"))
 
         self.value = TextInput(multiline = False)
@@ -105,10 +108,10 @@ class MainLayout(BoxLayout):
         self.right_layout.clear_widgets()
 
     def add_let(self, instance):
-        self.right_layout.add_widget(LetLayout())
+        self.right_layout.add_widget(LetLayout(size_hint=(1, None)))
 
     def add_print(self, instance):
-        self.right_layout.add_widget(PrintLayout())
+        self.right_layout.add_widget(PrintLayout( size_hint=(1, None)))
 
 
 class MyApp(App):
