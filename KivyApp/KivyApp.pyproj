@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>34fb028b-c6c2-492d-aa32-237caf4251dc</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>MainApp.py</StartupFile>
+    <StartupFile>KivyApp.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="input.bas" />
+    <Content Include="my.kv" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
