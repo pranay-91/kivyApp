@@ -80,9 +80,13 @@ class MainLayout(BoxLayout):
         self.orientation = "vertical"
         self.padding = 10
 
-        #self.left_layout = AnchorLayout(anchor_x ='right', anchor_y='center')
-        self.left_layout = BoxLayout(orientation="vertical")
+     
+        self.left_layout = BoxLayout(orientation="vertical")      
         self.add_widget(self.left_layout)
+
+        self.new_button = Button(text="New Program")
+        self.left_layout.add_widget(self.new_button)
+
         self.let_button = Button(text="LET")
         self.left_layout.add_widget(self.let_button)
         
@@ -93,8 +97,12 @@ class MainLayout(BoxLayout):
         self.right_layout = BoxLayout(padding=10, orientation ="vertical")
         self.add_widget(self.right_layout)
        
+        self.new_button.bind(on_press=self.new_program)
         self.let_button.bind(on_press =self.add_let)
         self.print_button.bind(on_press = self.add_print)
+       
+    def new_program(self,instance):
+        self.right_layout.clear_widgets()
 
     def add_let(self, instance):
         self.right_layout.add_widget(LetLayout())
