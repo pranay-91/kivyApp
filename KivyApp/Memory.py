@@ -12,9 +12,12 @@ class Memory(object):
         if var in self.variables.keys():
             return True
 
+    def get_variables(self):
+        return self.variables
+
     def set_value(self, name, value):
         # METHOD 1: STORING VARIABLES SAME AS THE ORIGINAL TYPE
-        #self.variables[name] = value
+        self.variables[name] = value
         # METHOD 2: STORING ALL THE VARIABLE VALUES AS STRING
-        self.variables[name] = str(value)
+        #self.variables[name] = str(value)
             
