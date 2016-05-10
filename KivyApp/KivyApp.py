@@ -1,5 +1,6 @@
 
 import kivy
+import sys
 from kivy.uix.anchorlayout import AnchorLayout
 kivy.require('1.0.6') # replace with your current kivy version !
 
@@ -96,11 +97,10 @@ class MainLayout(GridLayout):
         self.left_layout = GridLayout(cols=1,  pos=(5,-10), size_hint=(.4,1))      
         
 
-        self.spinner = Spinner( text = 'Menu', values =('New', 'Work', 'Other', 'Custom'), size_hint =(None, None), size=(200,44), pos_hint={'x':.1, 'y':.9})
+        self.spinner = Spinner( text = 'Menu', values =('New', 'Save', 'Exit'), size_hint =(None, None), size=(200,44), pos_hint={'x':.1, 'y':.9})
         self.left_layout.add_widget(self.spinner)
 
-        self.new_button = Button(text="New Program", size_hint =(None, None), size=(200,44),pos_hint={'x':.1, 'y':.8})
-        self.left_layout.add_widget(self.new_button)
+       
 
         self.let_button = Button(text="LET", size_hint =(None, None), size=(200,44),pos_hint={'x':.1, 'y':.7})
         self.left_layout.add_widget(self.let_button)
@@ -132,7 +132,7 @@ class MainLayout(GridLayout):
         
         self.bottom_layout.add_widget(self.comment)
         self.add_widget(self.bottom_layout)       
-        self.new_button.bind(on_press=self.new_program)
+        
         self.let_button.bind(on_press =self.add_let)
         self.print_button.bind(on_press = self.add_print)
         self.spinner.bind(text = self.new_program_option)
@@ -143,6 +143,8 @@ class MainLayout(GridLayout):
              self.right_layout.clear_widgets()
              self.y_pos = .8
              self.spinner.text = 'Menu'
+        elif option == 'Exit':
+            sys.exit()
 
     def new_program(self,instance):
         self.grid_layout.clear_widgets() # clear just the widgets inside the grid layout
