@@ -8,8 +8,10 @@ class Print(Operation):
         self.val = val
 
     def operate(self, memory):
+        val = self.val
         if len(self.val) < 2 and memory.is_variable(self.val):
-            val= memory.get_value(self.val)
+            val= memory.get_value(self.val)  
         print val
+        return val
 
 
