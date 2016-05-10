@@ -27,7 +27,7 @@ class Interpreter(object):
             current_line = self.lines[each_number]
             op = self.op_maker.create_operation(current_line)
             result = op.operate(self.memory)
-            if result is not 0:
+            if result is not None :
                 self.output.append(result)
 
     

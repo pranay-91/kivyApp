@@ -11,5 +11,5 @@ class Let(Operation):
 
     def operate(self, memory):
         memory.set_value(self.name, self.value)
-        return 0
+        #return 0
 

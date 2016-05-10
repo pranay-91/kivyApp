@@ -174,13 +174,13 @@ class MainLayout(GridLayout):
         self.comment.text = ""
         self.comment.insert_text('\n Output : \n')
         for value in output:
-            self.comment.insert_text(' ' + value+ '\n')
+            self.comment.insert_text(' ' + str(value)+ '\n')
 
         self.comment.insert_text('\n Memory: \n')
         self.comment.insert_text(' Variable \t Value \n')
         for var in variables.keys():
-            value = ' \t' + var + ' \t\t\t ' + variables[var] + '\n'
-            self.comment.insert_text(' ' + value)
+            value = ' \t' + var + ' \t\t\t ' + str(variables[var]) + '\n'
+            self.comment.insert_text(' ' + str(value))
 
 
 
