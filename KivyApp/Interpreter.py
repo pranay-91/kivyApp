@@ -23,6 +23,7 @@ class Interpreter(object):
 
     def run(self):
         line_number = sorted(self.lines.keys())
+        print(self.lines)
         for each_number in line_number:
             current_line = self.lines[each_number]
             op = self.op_maker.create_operation(current_line)

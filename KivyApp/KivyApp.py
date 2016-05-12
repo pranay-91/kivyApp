@@ -138,6 +138,7 @@ class MainLayout(GridLayout):
         elif option == 'Exit':
             sys.exit()
         elif option == 'Clear Message Box':
+            self.spinner.text = 'Menu'
             self.comment.text=""
 
     def new_program(self):
