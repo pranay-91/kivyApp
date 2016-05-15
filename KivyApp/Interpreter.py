@@ -9,8 +9,9 @@ class Interpreter(object):
     def __init__(self):
         self.memory = Memory()
         self.lines = {}
+        self.operations = {}
         self.output=[]
-        self.op_maker = OperationFactory(self.memory)
+        self.op_maker = OperationFactory(self.memory, self.operations)
 
     def add_line(self, number, line):  
         self.lines[int(number)] = line
@@ -27,8 +28,9 @@ class Interpreter(object):
         for each_number in line_number:
             current_line = self.lines[each_number]
             op = self.op_maker.create_operation(current_line)
+            self.operations[each_number] = op
             result = op.operate(self.memory)
-            if result is not None :
+            if result is not None:
                 self.output.append(result)
 
     

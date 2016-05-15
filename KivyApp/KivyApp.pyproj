@@ -34,6 +34,12 @@
     <Compile Include="ExpressionFactory.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Goto.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IfGoto.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interpreter.py">
       <SubType>Code</SubType>
     </Compile>

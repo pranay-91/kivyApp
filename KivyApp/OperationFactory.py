@@ -3,12 +3,16 @@ from Expression import Expression
 from Print import Print
 from ExpressionFactory import ExpressionFactory
 from Let import Let
+from Goto import Goto
+from IfGoto import IfGoto
 
 class OperationFactory(object):
     """description of class"""
-    def __init__(self, memory):
+    def __init__(self, memory, operations):
         self.exp_maker = ExpressionFactory()
         self.memory = memory
+        self.operations = operations
+        
 
     def create_operation(self, line):
         op =line[0]
@@ -21,8 +25,10 @@ class OperationFactory(object):
            return Let(var_name, value)
         elif op == 'PRINT':
            return Print(line[1])
-              
-
-    
-
-
+        elif op =='GOTO':
+           goto_number = line[1]
+           return Goto(self.operations[goto_number])
+        elif op == 'IF':
+            goto_number = line[6]
+            exp = self.exp_maker.create_expression(line[2], line[3], line[4])
+            return IfGoto(exp, Goto(self.operations[goto_number]))
