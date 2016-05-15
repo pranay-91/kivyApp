@@ -1,3 +1,15 @@
+"""
+@author: Pranay Pradhananga, Damian Katsigiannis
+@filename: KivyApp2.py
+@title: KivyApp2
+@description: This is the main program for the Scratchbasic application. 
+              It consists of four major layout panel: Main Layout, Command Panel Layout, Workspace Layout, Output Layout
+              MainLayout is the base layout that instantiates Command Panel, Workspace and Output layout in order
+              Each Expression Layout PRINT, LET, IF/GOTO, GOTO is a subclass of Expression Layout
+              Such design consideration allows one to add a new expression by simply extending Expression Layout
+              This program reuses existing Dumbasic program written in Python to compute the expressions and operations
+              An instance of Interpreter class is used to integrate with Dumbasic program 
+"""
 import kivy
 import sys
 import abc
@@ -15,14 +27,16 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scrollview import ScrollView
 
-from Let import Let
+
 from Expression import Expression
 from Interpreter import Interpreter
 
-
 class ExpressionLayout(BoxLayout):
-    #__metaclass__ = abc.ABCMeta
-
+  
+    """
+    Expression Layout class is the base class for each expression.
+    One can extend this class to add new  Expression.
+    """
     def __init__(self, line, name, **kwargs):
         super(ExpressionLayout, self).__init__(**kwargs)
         self.line = line
@@ -31,22 +45,38 @@ class ExpressionLayout(BoxLayout):
         self.btn_delete = Button(text="Del", size_hint =(.1,1))
         self.lbl_name = Label(text=self.name, size_hint=(.1,1))
         
+    """
+    Add the widgets to the layout
+    """
     def draw(self):
         self.add_widget(self.btn_delete)
         self.add_widget(self.txtbox_lineno)
         self.add_widget(self.lbl_name)
 
+    """
+    Deletes the expression from the workspace
+    """
     def delete_btn_click_event(self, instance):
         self.btn_delete._bind(on_press, instance)
 
+    """
+    Get the line number
+    """
     def get_line_number(self):
         return self.line
 
+    """
+    Get all the values from the layout interface and convert it into list that gets sent to interpreter for computation
+    All the Expression must implement this method.
+    """
     def get_expression(self):
         pass
 
 class LetLayout(ExpressionLayout):
-
+    
+    """
+    Let Layout represents Let expression. It extends the Expression Layout
+    """
     def __init__(self, line, **kwargs):
         super(LetLayout, self).__init__(line, "LET", **kwargs)
 
@@ -62,7 +92,9 @@ class LetLayout(ExpressionLayout):
         self.spn_operator = Spinner(text = '', values =('','-', '+'), size_hint=(.1,1))
         self.txt_val2 = TextInput(multiline = False, text ="0", size_hint=(.1,1))
    
-
+    """
+    Add the widgets to the layout
+    """
     def draw(self):
         super(LetLayout, self).draw()
         self.add_widget(self.txt_var_name)
@@ -70,11 +102,18 @@ class LetLayout(ExpressionLayout):
         self.add_widget(self.txt_val1)
         self.add_widget(self.spn_operator)
         self.add_widget(self.txt_val2)
-
+   
+    """
+    Get the expression list
+    """
     def get_expression(self):
         return [self.name, self.txt_var_name.text, self.lbl_equal.text, self.txt_val1.text, self.spn_operator.text, self.txt_val2.text]
 
 class IfLayout(ExpressionLayout):
+
+    """
+    Ïf Layout represents If/GOTO expression. It extends the Expression Layout
+    """
     def __init__(self, line, **kwargs):
         super(IfLayout, self).__init__(line, "IF", **kwargs)
 
@@ -89,8 +128,9 @@ class IfLayout(ExpressionLayout):
         self.lbl_goto = Label(text="GOTO", size_hint=(.1,1))
         self.txt_value3 = TextInput(multiline = False, size_hint=(.1,1))
       
-
-
+    """
+    Add the widgets to the layout
+    """
     def draw(self):
         super(IfLayout, self).draw()
         self.add_widget(self.txt_value1)
@@ -99,11 +139,17 @@ class IfLayout(ExpressionLayout):
         self.add_widget(self.lbl_goto)
         self.add_widget(self.txt_value3)
 
+    """
+    Get the expression list
+    """
     def get_expression(self):
         return [self.name, self.txt_value1.text, self.spn_operator.text, self.txt_value2.text, self.lbl_goto.text, self.txt_value3.text]
 
 
 class GotoLayout(ExpressionLayout):
+    """
+    Goto Layout represents Goto expression. It extends the Expression Layout
+    """
     def __init__(self, line,  **kwargs):
         super(GotoLayout, self).__init__(line, 'GOTO', **kwargs)
 
@@ -114,17 +160,25 @@ class GotoLayout(ExpressionLayout):
 
         self.txt_value = TextInput(multiline = False, size_hint =(.6,1))
        
+    """
+    Add the widgets to the layout
+    """
     def draw(self):
         super(GotoLayout, self).draw()
         self.add_widget(self.txt_value)
    
+    """
+    Get the expression list
+    """
     def get_expression(self):
         line_number = int(self.txt_value.text)
         return [self.name, line_number]
 
 
 class PrintLayout(ExpressionLayout):
-
+    """
+    Print Layout represents Print expression. It extends the Expression Layout
+    """
     def __init__(self, line, **kwargs):
         super(PrintLayout, self).__init__(line, "PRINT", **kwargs)
 
@@ -135,15 +189,25 @@ class PrintLayout(ExpressionLayout):
 
         self.txt_value = TextInput(multiline = False, size_hint=(.6,1))
 
+    """
+    Add the widgets to the layout
+    """
     def draw(self):
         super(PrintLayout, self).draw()
         self.add_widget(self.txt_value)
 
+    
+    """
+    Get the expression list
+    """
     def get_expression(self):
         return [self.name, self.txt_value.text]
 
 
 class CommandPanel(GridLayout):
+    """
+    This layout contains all the neccessary expression commands such as LET, PRINT, IF/GOTO, GOTO
+    """
     def __init__(self, workspace, **kwargs):
         super(CommandPanel, self).__init__(**kwargs)
         self.cols = 1
@@ -151,21 +215,30 @@ class CommandPanel(GridLayout):
         self.workspace = workspace
         self.expression_buttons = []       
        
-        
+    """
+    Draw the menu widget on this workspace.
+    """
     def draw(self, menu):
        self.add_widget(menu)
 
+    """
+    Create buttons for expression and add them in the layout. Bind the button to click event
+    """
     def add_expression_btn(self, name):
         btn =  Button(text=str(name), size_hint =(None, None), size=(200,44),pos_hint={'x':.1, 'y':.6})
         btn.bind(on_press = self.btn_clicked_event)
         self.add_widget(btn)
         self.expression_buttons.append(btn)
-
-
+    """
+    When user click on each expression button would create an expression layout in workspace
+    """
     def btn_clicked_event(self, instance):
         self.workspace.add_expression(instance)
 
 class Workspace(ScrollView):
+    """
+    Workspace is where user can view expression, configure them or simply choose to delete expressions.
+    """
     def __init__(self, **kwargs):
         super(Workspace, self).__init__(**kwargs)
         self.line_number = 1
@@ -174,16 +247,26 @@ class Workspace(ScrollView):
         self.layout = GridLayout(cols =1, padding=10, spacing =10, size_hint=(None, None), width = 500)
         self.layout.bind(minimum_height=self.layout.setter('height'))
       
-
+    """
+    Draw the expression to the workspace layout
+    """
     def draw(self):
         self.add_widget(self.layout)
 
+      
+    """
+    "Clear the workspace when a new program is selected by the user
+    """        
     def clear(self):
         self.expression_list=[]
         self.y_pos = .8
         self.line_number = 1
         self.layout.clear_widgets()
 
+          
+    """
+    Create relevant expression according to the expression buttons clicked in the command panel
+    """
 
     def add_expression(self, instance):
         #exp = LetLayout(line, size_hint=(None, None),  pos_hint={'x':.2,'y':self.y_pos})
@@ -197,6 +280,7 @@ class Workspace(ScrollView):
             exp = IfLayout(self.line_number, size_hint =(None, None), pos_hint = {'x':.2, 'y':self.y_pos})
 
         self.line_number += 1
+        # bind the delete event when user clicks on the delete button
         exp.btn_delete.fbind('on_press', self.delete_expression, expression = exp)
         
         exp.draw()
@@ -205,16 +289,26 @@ class Workspace(ScrollView):
         self.y_pos -= .1
         self.expression_list.append(exp)
 
+    """
+    Delete each expression from the workspace. This method is triggered when delete button is clicked
+    """
+
     def delete_expression(self,instance, expression):
         self.layout.remove_widget(expression)
         self.expression_list.remove(expression)
         #self.line_number -= 1
 
+    """
+    Get all the expressions from the workspace
+    """
     def get_expressions(self):
         return self.expression_list
 
 
 class Output(GridLayout):
+    """
+    This is where the result is printed out after the app is run successfully
+    """
     def __init__(self, **kwargs):
         super(Output, self).__init__(**kwargs)
         
@@ -229,6 +323,9 @@ class Output(GridLayout):
     def clear(self, insance):
         self.comment.text = ""
 
+    """
+    Add lines to the output box
+    """
     def add_text(self, text):
         self.comment.insert_text(text)
 
@@ -262,6 +359,9 @@ class MainLayout(GridLayout):
         self.output.draw()
         self.add_widget(self.output)
 
+    """
+    This is where the the program is run when user clicks Run from menu
+    """
     def run_app(self):
         i = Interpreter()
 
@@ -282,6 +382,9 @@ class MainLayout(GridLayout):
             value = ' \t' + var + ' \t\t\t ' + str(variables[var]) + '\n'
             self.output.add_text(' ' + str(value))
     
+    """
+    When user selects a menu option from the spinner
+    """
     def menu_option_selected_event(self, instance, option):
         
         if option == 'New':
@@ -295,6 +398,9 @@ class MainLayout(GridLayout):
            self.run_app()
 
 class KivyApp2(App):
+    """
+    Main Kivy Class to run the app.Simply creates instance of Mainlayout to iniitate.
+    """
     def build(self):
         main = MainLayout();
         return main

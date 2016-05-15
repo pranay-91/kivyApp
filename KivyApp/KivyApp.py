@@ -1,4 +1,9 @@
-
+"""
+@author: Pranay Pradhananga, Damian Katsigiannis
+@filename: KivyApp.py
+@title: KivyApp
+@description: This is the old version of the main app. Refer to KivyApp2 for the latest stable updated version
+"""
 import kivy
 import sys
 from kivy.uix.anchorlayout import AnchorLayout
