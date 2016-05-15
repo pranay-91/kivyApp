@@ -19,9 +19,12 @@ class OperationFactory(object):
         if op == 'LET':
            var_name = line[1]
            value = line[3:]
-           if len(value) > 1:
+           if value[1]=='':
+              value = value[0]
+           else:
               exp = self.exp_maker.create_expression(value[0], value[1], value[2])
               value = exp.compute(self.memory) 
+           
            return Let(var_name, value)
         elif op == 'PRINT':
            return Print(line[1])

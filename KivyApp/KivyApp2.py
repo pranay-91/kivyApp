@@ -59,16 +59,9 @@ class LetLayout(ExpressionLayout):
         self.txt_var_name = TextInput(multiline = False, size_hint=(.1,1))
         self.lbl_equal = Label(text="=",  size_hint=(.1,1))
         self.txt_val1 = TextInput(multiline = False, text ="0", size_hint=(.1,1))       
-        self.spn_operator = Spinner(text = '+', values =('-', '+'), size_hint=(.1,1))
+        self.spn_operator = Spinner(text = '', values =('','-', '+'), size_hint=(.1,1))
         self.txt_val2 = TextInput(multiline = False, text ="0", size_hint=(.1,1))
-        #self.spn_operator.bind(text = self.operator_select_event)
-         
-
-    def operator_select_event(self, instance, option):
-        if option == '-':
-            self.spn_operator.text = '-'
-        elif option == '+':
-            self.spn_operator.text = '+'
+   
 
     def draw(self):
         super(LetLayout, self).draw()
