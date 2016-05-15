@@ -29,6 +29,6 @@ class OperationFactory(object):
            goto_number = line[1]
            return Goto(self.operations[goto_number])
         elif op == 'IF':
-            goto_number = line[6]
-            exp = self.exp_maker.create_expression(line[2], line[3], line[4])
+            goto_number = int(line[5])
+            exp = self.exp_maker.create_expression(line[1], line[2], line[3])
             return IfGoto(exp, Goto(self.operations[goto_number]))

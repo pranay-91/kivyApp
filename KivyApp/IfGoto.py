@@ -11,4 +11,4 @@ class IfGoto(Operation):
 
     def operate(self, memory):
         if (self.expression.compute(memory)):
-            return self.goto.operate()
+            return self.goto.operate(memory)

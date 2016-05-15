@@ -37,6 +37,9 @@
     <Compile Include="Goto.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Compare.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IfGoto.py">
       <SubType>Code</SubType>
     </Compile>
