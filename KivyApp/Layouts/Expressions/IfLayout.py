@@ -56,5 +56,6 @@ class IfLayout(ExpressionLayout):
     Get the expression list
     """
     def get_expression(self):
+        super(IfLayout, self).get_expression()
         return [self.name, str(self.txt_value1.text), self.spn_operator.text, str(self.txt_value2.text), self.lbl_goto.text, str(self.txt_value3.text)]
 

@@ -48,6 +48,7 @@ class PrintLayout(ExpressionLayout):
     Get the expression list
     """
     def get_expression(self):
+        super(PrintLayout, self).get_expression()
         if self.txt_value.text == "":
            msg = "Line number: " + str(self.get_line_number()) + ". Nothing to Print "
            return ["Error", msg]

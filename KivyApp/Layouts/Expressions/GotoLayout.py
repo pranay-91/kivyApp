@@ -47,5 +47,7 @@ class GotoLayout(ExpressionLayout):
     Get the expression list
     """
     def get_expression(self):
+        super(GotoLayout, self).get_expression()
+
         line_number = int(self.txt_value.text)
         return [self.name, line_number]

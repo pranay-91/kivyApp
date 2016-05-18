@@ -34,11 +34,20 @@ class OperationFactory(object):
            if value[1]=='':
               # if no exprssion to be computed. eg. LET X = 10
                value = value[0]
+               if isinstance(value, str) and self.memory.is_variable(value):
+                   value = self.memory.get_value(value)
+               
+                 
+               return Let(var_name, value)
            else:
               # if there is an expression that needs to be computed eg. LET X = X + 10
               exp = self.exp_maker.create_expression(value[0], value[1], value[2])
               value = exp.compute(self.memory) 
-           return Let(var_name, value)
+              if isinstance(value, str):
+                return value
+              return Let(var_name, value)    
+
+          
 
         elif op == 'PRINT':
             # create PRINT operation

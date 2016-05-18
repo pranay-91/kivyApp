@@ -17,6 +17,23 @@ class Addition(Expression):
         # METHOD 1: STATIC TYPING
         #return memory.get_value(self.lhs) + memory.get_value(self.rhs)
         # METHOD 2: CONVERT STRINGS TO NUMBERS AT EVALUATION TIME
-        return int(memory.get_value(self.lhs)) + int(memory.get_value(self.rhs))
+        lhs = 0
+        rhs =0
+
+        if self.lhs.isdigit():
+            lhs = int(self.lhs)
+        elif memory.is_variable(self.lhs):
+            lhs =  int(memory.get_value(self.lhs))
+        else:
+            return (self.lhs) + " variable does not exist."
+
+        if self.rhs.isdigit():
+            rhs = int(self.rhs)
+        elif memory.is_variable(self.rhs):
+            rhs =  int(memory.get_value(self.rhs))
+        else:
+            return (self.rhs) + " variable does not exist."
+
+        return lhs + rhs
 
 

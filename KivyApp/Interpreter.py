@@ -49,6 +49,9 @@ class Interpreter(object):
         for each_number in line_number:
             current_line = self.lines[each_number]
             op = self.op_maker.create_operation(current_line)
+            if isinstance(op, str):
+                self.output = ["Error", op]
+                return 0
             self.operations[each_number] = op
             
             # Get the result of each operation

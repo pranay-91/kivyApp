@@ -56,11 +56,15 @@ class ExpressionLayout(BoxLayout):
     def get_line_number(self):
         return self.line
 
+    def set_line_number(self, number):
+        self.set_line_number = number
+
     """
     Get all the values from the layout interface and convert it into list that gets sent to interpreter for computation
     All the Expression must implement this method.
     """
     def get_expression(self):
+        self.line = int(self.txtbox_lineno.text)
         pass
 
 

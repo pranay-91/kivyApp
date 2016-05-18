@@ -60,11 +60,12 @@ class LetLayout(ExpressionLayout):
     Get the expression list
     """
     def get_expression(self):
+        super(LetLayout, self).get_expression()
         if self.txt_var_name.text == ""  or self.txt_var_name.text.isnumeric():
            msg = "Line number: " + str(self.get_line_number()) + ". Please enter a valid variable name. "
            return ["Error", msg]
-        if self.txt_val1.text.isnumeric() == False and self.spn_operator.text!='':
-           msg = "Line number: " + str(self.get_line_number()) + ". String operation is not allowed."
+        #if self.txt_val1.text.isnumeric() == False and self.spn_operator.text!='':
+        #   msg = "Line number: " + str(self.get_line_number()) + ". String operation is not allowed."
            return ["Error", msg]
         else:
            return [self.name, self.txt_var_name.text, self.lbl_equal.text, str(self.txt_val1.text), self.spn_operator.text, str(self.txt_val2.text)]
