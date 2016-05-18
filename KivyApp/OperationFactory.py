@@ -12,13 +12,15 @@ from ExpressionFactory import ExpressionFactory
 from Let import Let
 from Goto import Goto
 from IfGoto import IfGoto
+from Operation import Operation
 
 class OperationFactory(object):
     """description of class"""
-    def __init__(self, memory, operations):
+    def __init__(self, memory, operations, lines):
         self.exp_maker = ExpressionFactory()
         self.memory = memory
         self.operations = operations
+        self.lines = lines
         
 
     """
@@ -55,11 +57,38 @@ class OperationFactory(object):
 
         elif op =='GOTO':
             # create GOTO operation
-           goto_number = line[1]
-           return Goto(self.operations[goto_number])
+    
+           if line[1].isdigit() == False:
+                self.memory.is_variable(line[1])
+                goto_number = int(self.memory.get_value(line[1]))
+           else:
+                goto_number = int(line[1])        
+           
+           if goto_number in self.lines.keys():
+               goto_op = self.create_operation(self.lines[goto_number])
+               return Goto(goto_op)
+           else:
+               return "Line number " + str(goto_number) + " doesnt exist"
+
+           #if goto_number in self.operations.keys():
+
+           #    return Goto(self.operations[goto_number])
+           #else:
+           #    return "Line number " + str(goto_number) + " doesnt exist"
+
        
         elif op == 'IF':
             # create IF GOTO operation
-            goto_number = int(line[5])
+            if  line[5].isdigit() == False:
+                self.memory.is_variable(line[5])
+                goto_number = int(self.memory.get_value(line[5]))
+            else:
+                goto_number = int(line[5])
             exp = self.exp_maker.create_expression(line[1], line[2], line[3])
-            return IfGoto(exp, Goto(self.operations[goto_number]))
+          
+            if goto_number in self.lines.keys():
+               goto_op = self.create_operation(self.lines[goto_number])
+               return IfGoto(exp, Goto(goto_op))
+            else:
+               return "Line number " + str(goto_number) + " doesnt exist"
+          

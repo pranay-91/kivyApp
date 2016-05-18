@@ -19,7 +19,7 @@ class Interpreter(object):
         # list of output lines
         self.output=[]
         # instance of operation factory to create operations based on lines of operations
-        self.op_maker = OperationFactory(self.memory, self.operations)
+        self.op_maker = OperationFactory(self.memory, self.operations, self.lines)
 
     def add_line(self, number, line):  
         """
@@ -48,6 +48,7 @@ class Interpreter(object):
         print(self.lines)
         for each_number in line_number:
             current_line = self.lines[each_number]
+
             op = self.op_maker.create_operation(current_line)
             if isinstance(op, str):
                 self.output = ["Error", op]

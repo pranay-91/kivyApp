@@ -261,7 +261,7 @@ class MainLayout(GridLayout):
         if option == 'New':
             self.spn_menu.text = 'Menu'
             self.workspace.clear()
-
+            
         elif option == 'Exit':
             sys.exit()
         elif option == 'RUN':
