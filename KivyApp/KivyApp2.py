@@ -8,13 +8,14 @@
               Each Expression Layout PRINT, LET, IF/GOTO, GOTO is a subclass of Expression Layout
               Such design consideration allows one to add a new expression by simply extending Expression Layout
               This program reuses existing Dumbasic program written in Python to compute the expressions and operations
-              An instance of Interpreter class is used to integrate with Dumbasic program 
-"""
+              An instance of Interpreter class is used to integrate with Dumbasic program """
 import kivy
 import sys
 import abc
 
-kivy.require('1.0.6') # replace with your current kivy version !
+
+
+kivy.require('1.0.6') # current kivy version !
 
 from kivy.app import App
 from kivy.uix.label import Label
@@ -27,181 +28,19 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scrollview import ScrollView
 
+from Layouts.Expressions.ExpressionLayout import ExpressionLayout
+from Layouts.Expressions.LetLayout import LetLayout
+from Layouts.Expressions.PrintLayout import PrintLayout
+from Layouts.Expressions.GotoLayout import GotoLayout
+from Layouts.Expressions.IfLayout import IfLayout
+
+
+
+#import ExpressionLayout
 
 from Expression import Expression
 from Interpreter import Interpreter
 
-class ExpressionLayout(BoxLayout):
-  
-    """
-    Expression Layout class is the base class for each expression.
-    One can extend this class to add new  Expression.
-    """
-    def __init__(self, line, name, **kwargs):
-        super(ExpressionLayout, self).__init__(**kwargs)
-        self.line = line
-        self.name = name
-        self.txtbox_lineno = TextInput(text=str(self.line), size_hint=(.1,1))
-        self.btn_delete = Button(text="Del", size_hint =(.1,1))
-        self.lbl_name = Label(text=self.name, size_hint=(.1,1))
-        
-    """
-    Add the widgets to the layout
-    """
-    def draw(self):
-        self.add_widget(self.btn_delete)
-        self.add_widget(self.txtbox_lineno)
-        self.add_widget(self.lbl_name)
-
-    """
-    Deletes the expression from the workspace
-    """
-    def delete_btn_click_event(self, instance):
-        self.btn_delete._bind(on_press, instance)
-
-    """
-    Get the line number
-    """
-    def get_line_number(self):
-        return self.line
-
-    """
-    Get all the values from the layout interface and convert it into list that gets sent to interpreter for computation
-    All the Expression must implement this method.
-    """
-    def get_expression(self):
-        pass
-
-class LetLayout(ExpressionLayout):
-    
-    """
-    Let Layout represents Let expression. It extends the Expression Layout
-    """
-    def __init__(self, line, **kwargs):
-        super(LetLayout, self).__init__(line, "LET", **kwargs)
-
-        self.cols = 7
-        self.padding = 4
-        self.height = 40
-        self.width = 400
-        
-
-        self.txt_var_name = TextInput(multiline = False, size_hint=(.1,1))
-        self.lbl_equal = Label(text="=",  size_hint=(.1,1))
-        self.txt_val1 = TextInput(multiline = False, text ="0", size_hint=(.1,1))       
-        self.spn_operator = Spinner(text = '', values =('','-', '+'), size_hint=(.1,1))
-        self.txt_val2 = TextInput(multiline = False, text ="0", size_hint=(.1,1))
-   
-    """
-    Add the widgets to the layout
-    """
-    def draw(self):
-        super(LetLayout, self).draw()
-        self.add_widget(self.txt_var_name)
-        self.add_widget(self.lbl_equal)
-        self.add_widget(self.txt_val1)
-        self.add_widget(self.spn_operator)
-        self.add_widget(self.txt_val2)
-   
-    """
-    Get the expression list
-    """
-    def get_expression(self):
-        return [self.name, self.txt_var_name.text, self.lbl_equal.text, self.txt_val1.text, self.spn_operator.text, self.txt_val2.text]
-
-class IfLayout(ExpressionLayout):
-
-    """
-    Ïf Layout represents If/GOTO expression. It extends the Expression Layout
-    """
-    def __init__(self, line, **kwargs):
-        super(IfLayout, self).__init__(line, "IF", **kwargs)
-
-        self.cols = 9
-        self.padding = 4
-        self.height = 40
-        self.width = 380
-        
-        self.txt_value1 = TextInput(multiline = False, size_hint=(.1,1))
-        self.spn_operator = Spinner(text = '==', values =('>', '<', '=='), size_hint=(.1,1))
-        self.txt_value2 = TextInput(multiline = False, size_hint=(.1,1))
-        self.lbl_goto = Label(text="GOTO", size_hint=(.1,1))
-        self.txt_value3 = TextInput(multiline = False, size_hint=(.1,1))
-      
-    """
-    Add the widgets to the layout
-    """
-    def draw(self):
-        super(IfLayout, self).draw()
-        self.add_widget(self.txt_value1)
-        self.add_widget(self.spn_operator)
-        self.add_widget(self.txt_value2)
-        self.add_widget(self.lbl_goto)
-        self.add_widget(self.txt_value3)
-
-    """
-    Get the expression list
-    """
-    def get_expression(self):
-        return [self.name, self.txt_value1.text, self.spn_operator.text, self.txt_value2.text, self.lbl_goto.text, self.txt_value3.text]
-
-
-class GotoLayout(ExpressionLayout):
-    """
-    Goto Layout represents Goto expression. It extends the Expression Layout
-    """
-    def __init__(self, line,  **kwargs):
-        super(GotoLayout, self).__init__(line, 'GOTO', **kwargs)
-
-        self.cols = 4
-        self.padding = 4
-        self.height = 40
-        self.width = 300
-
-        self.txt_value = TextInput(multiline = False, size_hint =(.6,1))
-       
-    """
-    Add the widgets to the layout
-    """
-    def draw(self):
-        super(GotoLayout, self).draw()
-        self.add_widget(self.txt_value)
-   
-    """
-    Get the expression list
-    """
-    def get_expression(self):
-        line_number = int(self.txt_value.text)
-        return [self.name, line_number]
-
-
-class PrintLayout(ExpressionLayout):
-    """
-    Print Layout represents Print expression. It extends the Expression Layout
-    """
-    def __init__(self, line, **kwargs):
-        super(PrintLayout, self).__init__(line, "PRINT", **kwargs)
-
-        self.cols = 4
-        self.padding = 4
-        self.height = 40
-        self.width = 350
-
-        self.txt_value = TextInput(multiline = False, size_hint=(.6,1))
-
-    """
-    Add the widgets to the layout
-    """
-    def draw(self):
-        super(PrintLayout, self).draw()
-        self.add_widget(self.txt_value)
-
-    
-    """
-    Get the expression list
-    """
-    def get_expression(self):
-        return [self.name, self.txt_value.text]
 
 
 class CommandPanel(GridLayout):
@@ -314,14 +153,24 @@ class Output(GridLayout):
         
         self.comment = TextInput(text='Output is shown here..', width= 800, height=200)
         self.btn_clear = Button(text='Clear', size_hint =(None, None), size=(200,44),pos_hint={'x':.1, 'y':.6})
-        self.btn_clear.bind(on_press =self.clear)
+        self.btn_clear.bind(on_press =self.clear_event)
     
     def draw(self):
         self.add_widget(self.comment)
         self.add_widget(self.btn_clear)
 
-    def clear(self, insance):
+    def clear_event(self, instance):
+        self.clear()
+
+    def clear(self):
         self.comment.text = ""
+
+    def write_error(self, msg):
+        self.comment.insert_text("\n ERROR!!! \n")
+        
+        for errors in msg:
+            self.comment.insert_text(errors)
+            self.comment.insert_text('\n')
 
     """
     Add lines to the output box
@@ -365,9 +214,31 @@ class MainLayout(GridLayout):
     def run_app(self):
         i = Interpreter()
 
-        for each_exp in self.workspace.get_expressions():
-            i.add_line(each_exp.get_line_number(), each_exp.get_expression())
+        has_expressions = False
+        error_msgs = []
 
+        for each_exp in self.workspace.get_expressions():
+            expression_line =  each_exp.get_expression()
+            has_expressions = True
+            if expression_line[0] is "Error":
+                error_msgs.append(expression_line[1])
+            else:            
+                
+                i.add_line(each_exp.get_line_number(),expression_line)
+
+       
+        if has_expressions == False:
+            self.output.clear()
+            self.output.write_error(["Nothing to run"])
+            return 0
+
+        if len(error_msgs) > 0:
+            self.output.clear()
+            self.output.write_error(error_msgs)
+            return 0
+
+        
+           
         i.run()
         output = i.get_output()
         variables = i.get_variables()

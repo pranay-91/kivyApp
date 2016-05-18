@@ -56,7 +56,7 @@ class LetLayout(BoxLayout):
         self.add_widget(self.value2)
 
     def get_command(self):
-        line = [self.label, self.variable_name.text, '=', self.value1.text, self.operator.text, self.value2.text]
+        line = [self.label, self.variable_name.text, '=', str(self.value1.text), self.operator.text, str(self.value2.text)]
         return line
        
 
@@ -78,7 +78,7 @@ class PrintLayout(BoxLayout):
         self.add_widget(self.value)
 
     def get_command(self):
-        line = [self.label, self.value.text]
+        line = [self.label, str(self.value.text)]
         return line
 
 

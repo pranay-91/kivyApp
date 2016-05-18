@@ -50,6 +50,27 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="KivyApp.py" />
+    <Compile Include="Layouts\Expressions\ExpressionLayout.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layouts\Expressions\GotoLayout.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layouts\Expressions\IfLayout.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layouts\Expressions\LetLayout.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layouts\Expressions\PrintLayout.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layouts\Expressions\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layouts\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Let.py">
       <SubType>Code</SubType>
     </Compile>
@@ -81,6 +102,10 @@
   <ItemGroup>
     <Content Include="input.bas" />
     <Content Include="my.kv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Layouts\" />
+    <Folder Include="Layouts\Expressions\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

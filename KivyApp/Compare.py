@@ -20,20 +20,20 @@ class Compare(Expression):
         # if its a variable in the memory
             lhs_val = memory.get_value(self.lhs)
         else:
-            lhs_val = int(self.lhs)  
+            lhs_val = str(self.lhs)  
         
         if memory.is_variable(self.rhs):
         #  if its a variable in the memory
            rhs_val = memory.get_value(self.rhs)
         else:
-            rhs_val = int(self.rhs)  
+            rhs_val = str(self.rhs)  
        
         if self.operand == '>':
-            return (lhs_val > rhs_val)
+            return (int(lhs_val) > int(rhs_val))
         elif self.operand == '<':
-            return (lhs_val < rhs_val)
+            return (int(lhs_val) < int(rhs_val))
         elif self.operand == '==':
-            return (lhs_val == rhs_val)
+            return (str(lhs_val) ==  str(rhs_val))
        
 
 
