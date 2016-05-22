@@ -19,7 +19,9 @@ class Print(Operation):
     """
     def operate(self, memory):
         val = self.val
-        if len(self.val) < 2 and memory.is_variable(self.val):
+        #if len(self.val) < 2 and memory.is_variable(self.val):
+        if memory.is_variable(self.val):
+     
         # if it is a variable, get the value
             val= memory.get_value(self.val)  
         print val
