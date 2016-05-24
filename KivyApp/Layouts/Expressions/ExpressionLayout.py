@@ -22,19 +22,35 @@ from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 
 
+from Layouts.ComboEdit import ComboEdit
+
+
 class ExpressionLayout(BoxLayout):
   
     """
     Expression Layout class is the base class for each expression.
     One can extend this class to add new  Expression.
     """
-    def __init__(self, line, name, **kwargs):
+    def __init__(self, line, name,  var_list=[], **kwargs):
         super(ExpressionLayout, self).__init__(**kwargs)
         self.line = line
         self.name = name
+        self.size_hint=(None, None)
+        self.btn_variables = []
+        self.cmb_variables = None
+
+        # if var_list is needed for the child layout class
+        if len(var_list)>0:
+             # create buttons for each variable names
+            for var in var_list:
+                self.btn_variables.append(Button(text = str.strip(str(var)),size_hint_y=None,height=40))
+            # add the buttons of variables as options for Combo edit
+            self.cmb_variables = ComboEdit( size_hint= (.1, 1), height=50, options=self.btn_variables)
+        
         self.txtbox_lineno = TextInput(text=str(self.line), size_hint=(.1,1))
         self.btn_delete = Button(text="Del", size_hint =(.1,1))
         self.lbl_name = Label(text=self.name, size_hint=(.1,1))
+     
         
     """
     Add the widgets to the layout
@@ -66,11 +82,3 @@ class ExpressionLayout(BoxLayout):
     def get_expression(self):
         self.line = int(self.txtbox_lineno.text)
         pass
-
-
-
-
-
-
-
-
