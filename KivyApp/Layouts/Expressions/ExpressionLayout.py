@@ -36,22 +36,23 @@ class ExpressionLayout(BoxLayout):
         self.line = line
         self.name = name
         self.size_hint=(None, None)
-        self.btn_variables = []
-        self.cmb_variables = None
-
-        # if var_list is needed for the child layout class
-        if len(var_list)>0:
-             # create buttons for each variable names
-            for var in var_list:
-                self.btn_variables.append(Button(text = str.strip(str(var)),size_hint_y=None,height=40))
-            # add the buttons of variables as options for Combo edit
-            self.cmb_variables = ComboEdit( size_hint= (.1, 1), height=50, options=self.btn_variables)
+        self.var_list = var_list
+     
+            
         
         self.txtbox_lineno = TextInput(text=str(self.line), size_hint=(.1,1))
         self.btn_delete = Button(text="Del", size_hint =(.1,1))
         self.lbl_name = Label(text=self.name, size_hint=(.1,1))
      
-        
+    """
+    Creates and returns a new combo edit for list of variables
+    """
+    def get_cmb_variables(self):
+        btn_variables = []
+        for var in self.var_list:
+           btn_variables.append(Button(text = str.strip(str(var)),size_hint_y=None,height=40))
+        return ComboEdit( size_hint= (.1, 1), height=50, options=btn_variables)
+
     """
     Add the widgets to the layout
     """
