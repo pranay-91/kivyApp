@@ -27,15 +27,24 @@ kivy.require('1.0.6') # current kivy version !
 
 class IfLayout(ExpressionLayout):
 
-    def __init__(self, line, **kwargs):
-        super(IfLayout, self).__init__(line, "IF", **kwargs)
-
+    def __init__(self, line, var_list=[], **kwargs):
+        super(IfLayout, self).__init__(line, "IF", var_list,  **kwargs)
+      
         self.cols = 9
         self.padding = 4
         self.height = 40
         self.width = 380
+       
+
+        ## create buttons for each variable names
+        #for var in var_list:
+        #    self.btn_variables.append(Button(text = str.strip(str(var)),size_hint_y=None,height=40))
         
-        self.txt_value1 = TextInput(multiline = False, size_hint=(.1,1))
+        ## add the buttons of variables as options for Combo edit
+        #self.txt_value1 = ComboEdit( size_hint= (.1, 1), height=50, options=self.btn_variables)
+
+        #self.txt_value1 = TextInput(multiline = False, size_hint=(.1,1))
+        self.txt_value1 = self.cmb_variables
         self.spn_operator = Spinner(text = '==', values =('>', '<', '=='), size_hint=(.1,1))
         self.txt_value2 = TextInput(multiline = False, size_hint=(.1,1))
         self.lbl_goto = Label(text="GOTO", size_hint=(.1,1))
@@ -57,5 +66,9 @@ class IfLayout(ExpressionLayout):
     """
     def get_expression(self):
         super(IfLayout, self).get_expression()
-        return [self.name, str(self.txt_value1.text), self.spn_operator.text, str(self.txt_value2.text), self.lbl_goto.text, str(self.txt_value3.text)]
+        if str(self.txt_value3.text.isdigit()):
+            return [self.name, str(self.txt_value1.text), self.spn_operator.text, str(self.txt_value2.text), self.lbl_goto.text, str(self.txt_value3.text)]
+        else:
+            return ["Error", "Line number is not valid"]
+        
 
