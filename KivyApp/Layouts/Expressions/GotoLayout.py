@@ -50,4 +50,7 @@ class GotoLayout(ExpressionLayout):
         super(GotoLayout, self).get_expression()
 
         line_number = self.txt_value.text
-        return [self.name, line_number]
+        if line_number.isdigit():
+            return [self.name, line_number]
+        else:
+            return ["Error", "Line number is not valid"]

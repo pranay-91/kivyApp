@@ -13,6 +13,7 @@ from Let import Let
 from Goto import Goto
 from IfGoto import IfGoto
 from Operation import Operation
+from If import If
 
 class OperationFactory(object):
     """description of class"""
@@ -55,30 +56,45 @@ class OperationFactory(object):
             # create PRINT operation
            return Print(line[1])
 
-        elif op =='GOTO':
-            # create GOTO operation
+        #elif op =='GOTO':
+        #    # create GOTO operation
     
-           if line[1].isdigit() == False:
-                self.memory.is_variable(line[1])
-                goto_number = int(self.memory.get_value(line[1]))
-           else:
-                goto_number = int(line[1])        
+        #   if line[1].isdigit() == False:
+        #        self.memory.is_variable(line[1])
+        #        goto_number = int(self.memory.get_value(line[1]))
+        #   else:
+        #        goto_number = int(line[1])        
            
-           if goto_number in self.lines.keys():
-               goto_op = self.create_operation(self.lines[goto_number])
-               return Goto(goto_op)
-           else:
-               return "Line number " + str(goto_number) + " doesnt exist"
+        #   if goto_number in self.lines.keys():
+        #       goto_op = self.create_operation(self.lines[goto_number])
+        #       return Goto(goto_op)
+        #   else:
+        #       return "Line number " + str(goto_number) + " doesnt exist"
 
-           #if goto_number in self.operations.keys():
+        #   #if goto_number in self.operations.keys():
 
-           #    return Goto(self.operations[goto_number])
-           #else:
-           #    return "Line number " + str(goto_number) + " doesnt exist"
+        #   #    return Goto(self.operations[goto_number])
+        #   #else:
+        #   #    return "Line number " + str(goto_number) + " doesnt exist"
 
        
+        #elif op == 'IF':
+        #    # create if goto operation
+        #    if  line[5].isdigit() == False:
+        #        self.memory.is_variable(line[5])
+        #        goto_number = int(self.memory.get_value(line[5]))
+        #    else:
+        #        goto_number = int(line[5])
+        #    exp = self.exp_maker.create_expression(line[1], line[2], line[3])
+          
+        #    if goto_number in self.lines.keys():
+        #       goto_op = self.create_operation(self.lines[goto_number])
+        #       return IfGoto(exp, goto(goto_op))
+        #    else:
+        #       return "line number " + str(goto_number) + " doesnt exist"
+          
         elif op == 'IF':
-            # create IF GOTO operation
+            # create if goto operation
             if  line[5].isdigit() == False:
                 self.memory.is_variable(line[5])
                 goto_number = int(self.memory.get_value(line[5]))
@@ -86,9 +102,4 @@ class OperationFactory(object):
                 goto_number = int(line[5])
             exp = self.exp_maker.create_expression(line[1], line[2], line[3])
           
-            if goto_number in self.lines.keys():
-               goto_op = self.create_operation(self.lines[goto_number])
-               return IfGoto(exp, Goto(goto_op))
-            else:
-               return "Line number " + str(goto_number) + " doesnt exist"
-          
+            return If(exp)

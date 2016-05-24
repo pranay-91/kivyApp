@@ -40,6 +40,9 @@
     <Compile Include="Compare.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="If.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IfGoto.py">
       <SubType>Code</SubType>
     </Compile>
@@ -50,7 +53,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="KivyApp.py" />
+    <Compile Include="Layouts\ComboEdit.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layouts\Expressions\EndLayout.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Layouts\Expressions\ExpressionLayout.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layouts\Expressions\GoSubLayout.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Layouts\Expressions\GotoLayout.py">
@@ -63,6 +75,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Layouts\Expressions\PrintLayout.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layouts\Expressions\ReturnLayout.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Layouts\Expressions\__init__.py">
@@ -90,6 +105,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Subtraction.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestClass.py">

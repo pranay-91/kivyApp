@@ -39,28 +39,82 @@ class Interpreter(object):
         """
         return self.memory.get_variables()
 
+    def write_error(self, msg):
+        self.output = ["Error", msg]
+
+
     def run(self):
         """
         Sort the lines of operation and run them line by line
         Go through each line, create related operation then execute the operations
         """
         line_number = sorted(self.lines.keys())
-        print(self.lines)
-        for each_number in line_number:
-            current_line = self.lines[each_number]
+        sub_stack = []
+        i =0
+        while i < len(line_number):
+            current_no = line_number[i]
+            current_line = self.lines[current_no]
 
-            op = self.op_maker.create_operation(current_line)
-            if isinstance(op, str):
-                self.output = ["Error", op]
+            if current_line[0] == 'END':
                 return 0
-            self.operations[each_number] = op
             
-            # Get the result of each operation
-            result = op.operate(self.memory)
+            elif current_line[0] == 'GOTO' or current_line[0] == 'GOSUB':
+                if int(current_line[1]) == current_no:
+                    self.write_error("Cannot Goto same line number")
+                    return 0        
+
+                if int(current_line[1]) in line_number:
+                    i = line_number.index(int(current_line[1]))               
+                else:
+                    self.write_error("Line Number does not exist")
+                    return 0
+   
+                if current_line[0] == 'GOSUB':
+                    sub_stack.append(i+1)
+                     
+            elif current_line[0] == 'RETURN':
+                if len(sub_stack) < 1:
+                    #TODO throw an exception 'RETURN WITHOUT GOSUB'
+                    self.write_error("RETURN WITHOUT GOSUB")
+                    return 0
+                else:
+                    i = sub_stack.pop()
             
-            # if an operation returns a value then add the result to output list
-            if result is not None:
-                self.output.append(result)
+            else:           
+                op = self.op_maker.create_operation(current_line)
+                if isinstance(op, str):
+                    self.write_error(op)
+                    return 0
+                self.operations[current_no] = op
+
+                # Get the result of each operation
+                result = op.operate(self.memory)
+            
+                # if an operation returns a value then add the result to output list
+                if result is not None:
+                    self.output.append(result)
+           
+                if current_line[0] == "IF" and result == True:
+                    i =line_number.index(int(current_line[5]))
+                else:
+                    i+=1
+
+            
+
+        #for each_number in line_number:
+        #    current_line = self.lines[each_number]
+        #    op = self.op_maker.create_operation(current_line)
+        #    if isinstance(op, str):
+        #        self.output = ["Error", op]
+        #        return 0
+        #    self.operations[each_number] = op
+
+        #    # Get the result of each operation
+        #    result = op.operate(self.memory)
+            
+        #    # if an operation returns a value then add the result to output list
+        #    if result is not None:
+        #        self.output.append(result)
 
     
 
