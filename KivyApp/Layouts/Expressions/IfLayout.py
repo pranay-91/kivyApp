@@ -36,14 +36,6 @@ class IfLayout(ExpressionLayout):
         self.width = 380
        
 
-        ## create buttons for each variable names
-        #for var in var_list:
-        #    self.btn_variables.append(Button(text = str.strip(str(var)),size_hint_y=None,height=40))
-        
-        ## add the buttons of variables as options for Combo edit
-        #self.txt_value1 = ComboEdit( size_hint= (.1, 1), height=50, options=self.btn_variables)
-
-        #self.txt_value1 = TextInput(multiline = False, size_hint=(.1,1))
         self.txt_value1 = self.cmb_variables
         self.spn_operator = Spinner(text = '==', values =('>', '<', '=='), size_hint=(.1,1))
         self.txt_value2 = TextInput(multiline = False, size_hint=(.1,1))
