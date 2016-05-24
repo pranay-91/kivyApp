@@ -36,9 +36,9 @@ class IfLayout(ExpressionLayout):
         self.width = 380
        
 
-        self.txt_value1 = self.cmb_variables
+        self.txt_value1 = self.get_cmb_variables()
         self.spn_operator = Spinner(text = '==', values =('>', '<', '=='), size_hint=(.1,1))
-        self.txt_value2 = TextInput(multiline = False, size_hint=(.1,1))
+        self.txt_value2 = self.get_cmb_variables()
         self.lbl_goto = Label(text="GOTO", size_hint=(.1,1))
         self.txt_value3 = TextInput(multiline = False, size_hint=(.1,1))
       
