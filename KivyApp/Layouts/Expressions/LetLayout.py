@@ -13,8 +13,6 @@
 
 import kivy
 
-
-
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
@@ -30,8 +28,8 @@ class LetLayout(ExpressionLayout):
     """
     Let Layout represents Let expression. It extends the Expression Layout
     """
-    def __init__(self, line, **kwargs):
-        super(LetLayout, self).__init__(line, "LET", **kwargs)
+    def __init__(self, line, var_list=[], **kwargs):
+        super(LetLayout, self).__init__(line, "LET",var_list, **kwargs)
 
         self.cols = 7
         self.padding = 4
@@ -41,10 +39,18 @@ class LetLayout(ExpressionLayout):
 
         self.txt_var_name = TextInput(multiline = False, size_hint=(.1,1))
         self.lbl_equal = Label(text="=",  size_hint=(.1,1))
-        self.txt_val1 = TextInput(multiline = False, text ="0", size_hint=(.1,1))       
+        #self.txt_val1 = TextInput(multiline = False, text ="0", size_hint=(.1,1))       
+        self.txt_val1 = self.get_cmb_variables()
+
         self.spn_operator = Spinner(text = '', values =('','-', '+'), size_hint=(.1,1))
-        self.txt_val2 = TextInput(multiline = False, text ="0", size_hint=(.1,1))
+        #self.txt_val2 = TextInput(multiline = False, text ="0", size_hint=(.1,1))
+        self.txt_val2 = self.get_cmb_variables()
+
+        self.spn_operator.bind(text = self.on_select)
    
+
+    def on_select(self, instance, text):
+        self.spn_operator.add_widget(TextInput(text=self.spn_operator.text))
     """
     Add the widgets to the layout
     """
