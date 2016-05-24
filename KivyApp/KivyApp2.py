@@ -33,6 +33,10 @@ from Layouts.Expressions.LetLayout import LetLayout
 from Layouts.Expressions.PrintLayout import PrintLayout
 from Layouts.Expressions.GotoLayout import GotoLayout
 from Layouts.Expressions.IfLayout import IfLayout
+from Layouts.Expressions.GoSubLayout import GoSubLayout
+from Layouts.Expressions.ReturnLayout import ReturnLayout
+from Layouts.Expressions.EndLayout import EndLayout
+
 
 
 
@@ -53,6 +57,7 @@ class CommandPanel(GridLayout):
         self.pos = (5,-10)
         self.workspace = workspace
         self.expression_buttons = []       
+      
        
     """
     Draw the menu widget on this workspace.
@@ -83,6 +88,7 @@ class Workspace(ScrollView):
         self.line_number = 1
         self.expression_list = []
         self.y_pos = .8
+        self.current_variable_names = []
         self.layout = GridLayout(cols =1, padding=10, spacing =10, size_hint=(None, None), width = 500)
         self.layout.bind(minimum_height=self.layout.setter('height'))
       
@@ -92,7 +98,13 @@ class Workspace(ScrollView):
     def draw(self):
         self.add_widget(self.layout)
 
-      
+    """
+    Update the current list of variable names after a program is run
+    """
+    def update_variable_names(self, var):
+        self.current_variable_names = var
+        self.current_variable_names.sort()
+
     """
     "Clear the workspace when a new program is selected by the user
     """        
@@ -110,13 +122,19 @@ class Workspace(ScrollView):
     def add_expression(self, instance):
         #exp = LetLayout(line, size_hint=(None, None),  pos_hint={'x':.2,'y':self.y_pos})
         if instance.text == 'LET':
-            exp = LetLayout(self.line_number, size_hint=(None, None),  pos_hint={'x':.2,'y':self.y_pos})   
+            exp = LetLayout(self.line_number, self.current_variable_names, pos_hint={'x':.2,'y':self.y_pos})   
         elif instance.text == 'PRINT':
-            exp = PrintLayout(self.line_number, size_hint=(None, None),  pos_hint={'x':.2,'y':self.y_pos})
+            exp = PrintLayout(self.line_number, pos_hint={'x':.2,'y':self.y_pos})
         elif instance.text == 'GOTO':
-            exp = GotoLayout(self.line_number, size_hint=(None, None), pos_hint={'x':.2, 'y':self.y_pos})
+            exp = GotoLayout(self.line_number, pos_hint={'x':.2, 'y':self.y_pos})
         elif instance.text == 'IF':
-            exp = IfLayout(self.line_number, size_hint =(None, None), pos_hint = {'x':.2, 'y':self.y_pos})
+            exp = IfLayout(self.line_number, self.current_variable_names, pos_hint = {'x':.2, 'y':self.y_pos})
+        elif instance.text == 'GOSUB':
+            exp = GoSubLayout(self.line_number, pos_hint ={'x':.2, 'y':self.y_pos})
+        elif instance.text == 'RETURN':
+            exp = ReturnLayout(self.line_number,  pos_hint ={'x':.2, 'y':self.y_pos})
+        elif instance.text == 'END':
+            exp = EndLayout(self.line_number, pos_hint ={'x':.2, 'y':self.y_pos})
 
         self.line_number += 1
         # bind the delete event when user clicks on the delete button
@@ -182,12 +200,15 @@ class Output(GridLayout):
 class MainLayout(GridLayout):
     def __init__(self, **kwargs):
         super(MainLayout, self).__init__(**kwargs)
+        self.Interpreter = Interpreter()
         self.command_stack = []
+
         self.cols =2
         self.orientation = "verical"
         self.padding = 10
         
-        self.workspace = Workspace()
+        
+        self.workspace = Workspace( )
         self.command_panel = CommandPanel(self.workspace)
         self.output = Output()
 
@@ -199,6 +220,9 @@ class MainLayout(GridLayout):
         self.command_panel.add_expression_btn('PRINT')
         self.command_panel.add_expression_btn('GOTO')
         self.command_panel.add_expression_btn('IF')
+        self.command_panel.add_expression_btn('GOSUB')
+        self.command_panel.add_expression_btn('RETURN')
+        self.command_panel.add_expression_btn('END')
         self.add_widget(self.command_panel)
 
         self.orientation = "horizontal"
@@ -212,7 +236,7 @@ class MainLayout(GridLayout):
     This is where the the program is run when user clicks Run from menu
     """
     def run_app(self):
-        i = Interpreter()
+        i = self.Interpreter
 
         has_expressions = False
         error_msgs = []
@@ -235,13 +259,12 @@ class MainLayout(GridLayout):
         if len(error_msgs) > 0:
             self.output.clear()
             self.output.write_error(error_msgs)
-            return 0
-
-        
-           
+            return 0           
         i.run()
         output = i.get_output()
         variables = i.get_variables()
+        self.workspace.update_variable_names(variables.keys())
+      
 
         self.output.add_text("\n Output : \n");
         for value in output:
