@@ -35,6 +35,7 @@ class GotoLayout(ExpressionLayout):
         self.width = 300
 
         self.txt_value = TextInput(multiline = False, size_hint =(.6,1))
+        
        
     """
     Add the widgets to the layout

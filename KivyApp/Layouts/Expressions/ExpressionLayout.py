@@ -37,6 +37,7 @@ class ExpressionLayout(BoxLayout):
         self.name = name
         self.size_hint=(None, None)
         self.var_list = var_list
+        self.current_touch = False
      
             
         
@@ -76,6 +77,11 @@ class ExpressionLayout(BoxLayout):
     def set_line_number(self, number):
         self.set_line_number = number
 
+    def on_touch_down(self, touch):
+        super(ExpressionLayout, self).on_touch_down(touch)
+        if self.collide_point(*touch.pos):
+            return self.get_line_number()
+
     """
     Get all the values from the layout interface and convert it into list that gets sent to interpreter for computation
     All the Expression must implement this method.
@@ -83,3 +89,12 @@ class ExpressionLayout(BoxLayout):
     def get_expression(self):
         self.line = int(self.txtbox_lineno.text)
         pass
+
+    
+    def on_touch_down(self, touch):
+        super(ExpressionLayout, self).on_touch_down(touch)
+        if self.collide_point(*touch.pos):
+            self.current_touch = True
+            print 'touch'
+          
+            print touch

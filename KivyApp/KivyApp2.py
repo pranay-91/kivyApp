@@ -143,6 +143,33 @@ class Workspace(ScrollView):
         self.y_pos -= .1
         self.expression_list.append(exp)
 
+    def on_touch_down(self, t):
+        super(Workspace, self).on_touch_down(t)
+
+        #t.apply_transform_2d(self.layout.to_local)
+       # for widget in self.layout.walk():
+            #print widget.on_touch_down(t)
+           # print t
+            #if widget.id == 'LET':
+            #       print widget.on_touch_down(t)
+    #            print "\n"
+    #            print widget.collide_point(*t.pos)
+    #            print widget
+    #            print t
+    #            print widget.x
+    #            print widget.y
+
+        #if self.collide_point(*t.pos):
+        #    for widget in self.layout.walk():
+        #        #if widget.collide_point(*t.pos):
+        #        if widget.id == 'LET':
+        #           print widget.on_touch_down(t)
+                   #print widget.get_line_number()
+                       #print("\n{} -> {}".format("Line number", widget.get_line_number()))
+                   
+
+
+
     """
     Delete each expression from the workspace. This method is triggered when delete button is clicked
     """
@@ -227,6 +254,16 @@ class MainLayout(GridLayout):
         
         self.output.draw()
         self.add_widget(self.output)
+
+    #def on_touch_down(self, touch):
+    #    super(MainLayout, self).on_touch_down(touch)
+    #    for widget in self.workspace.layout.walk():
+    #        if widget.id == 'LET':
+    #            x = (touch.x- self.command_panel.x)
+    #            y = (touch.y - self.command_panel.y)
+    #            print widget.collide_point(x,y )
+    #            print x
+    #            print y
 
     """
     This is where the the program is run when user clicks Run from menu

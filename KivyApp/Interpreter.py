@@ -80,7 +80,7 @@ class Interpreter(object):
             elif current_line[0] == 'RETURN':
                 if len(sub_stack) < 1:
                     #TODO throw an exception 'RETURN WITHOUT GOSUB'
-                    self.write_error("RETURN WITHOUT GOSUB")
+                   # self.write_error("RETURN WITHOUT GOSUB")
                     return 0
                 else:
                     index = sub_stack.pop()
