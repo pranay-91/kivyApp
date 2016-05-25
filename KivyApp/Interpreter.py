@@ -9,6 +9,7 @@ from Memory import Memory
 from Operation import Operation
 from OperationFactory import OperationFactory
 
+
 class Interpreter(object):
     def __init__(self):
         self.memory = Memory()
@@ -17,7 +18,7 @@ class Interpreter(object):
         # list of actual operation objects that has been executed before
         self.operations = {}
         # list of output lines
-        self.output=[]
+        self.output = []
         # instance of operation factory to create operations based on lines of operations
         self.op_maker = OperationFactory(self.memory, self.operations, self.lines)
 
@@ -43,7 +44,7 @@ class Interpreter(object):
         self.output = ["Error", msg]
 
     def clear_output(self):
-        self.output =[]
+        self.output = []
 
     def run(self):
         """
@@ -52,7 +53,7 @@ class Interpreter(object):
         """
         line_number = sorted(self.lines.keys())
         sub_stack = []
-        index =0
+        index = 0
         while index < len(line_number):
             current_no = line_number[index]
             current_line = self.lines[current_no]
@@ -67,16 +68,15 @@ class Interpreter(object):
                 
                 if current_line[0] == 'GOSUB':
                     sub_stack.append(index+1)
-                    print index
+                    print(index)
 
                 if int(current_line[1]) in line_number:
                     index = line_number.index(int(current_line[1])) 
-                    print index              
+                    print(index)
                 else:
                     self.write_error("Line Number does not exist")
                     return 0
-   
-                     
+
             elif current_line[0] == 'RETURN':
                 if len(sub_stack) < 1:
                     #TODO throw an exception 'RETURN WITHOUT GOSUB'
@@ -99,10 +99,10 @@ class Interpreter(object):
                 if result is not None:
                     self.output.append(result)
            
-                if current_line[0] == "IF" and result == True:
-                    index =line_number.index(int(current_line[5]))
+                if current_line[0] == "IF" and result is True:
+                    index = line_number.index(int(current_line[5]))
                 else:
-                    index+=1
+                    index += 1
 
             
 

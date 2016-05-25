@@ -15,7 +15,7 @@ import abc
 
 
 
-kivy.require('1.0.6') # current kivy version !
+kivy.require('1.0.6')  # current kivy version !
 
 from kivy.app import App
 from kivy.uix.label import Label
@@ -46,10 +46,9 @@ from Expression import Expression
 from Interpreter import Interpreter
 
 
-
 class CommandPanel(GridLayout):
     """
-    This layout contains all the neccessary expression commands such as LET, PRINT, IF/GOTO, GOTO
+    This layout contains all the necessary expression commands such as LET, PRINT, IF/GOTO, GOTO
     """
     def __init__(self, workspace, **kwargs):
         super(CommandPanel, self).__init__(**kwargs)
@@ -89,7 +88,7 @@ class Workspace(ScrollView):
         self.expression_list = []
         self.y_pos = .8
         self.current_variable_names = []
-        self.layout = GridLayout(cols =1, padding=10, spacing =10, size_hint=(None, None), width = 500)
+        self.layout = GridLayout(cols=1, padding=10, spacing=10, size_hint=(None, None), width = 500)
         self.layout.bind(minimum_height=self.layout.setter('height'))
       
     """
@@ -103,18 +102,16 @@ class Workspace(ScrollView):
     """
     def update_variable_names(self, var):
         self.current_variable_names = var
-        self.current_variable_names.sort()
 
     """
     "Clear the workspace when a new program is selected by the user
     """        
     def clear(self):
-        self.expression_list=[]
+        self.expression_list = []
         self.y_pos = .8
         self.line_number = 1
         self.layout.clear_widgets()
 
-          
     """
     Create relevant expression according to the expression buttons clicked in the command panel
     """
@@ -122,23 +119,23 @@ class Workspace(ScrollView):
     def add_expression(self, instance):
         #exp = LetLayout(line, size_hint=(None, None),  pos_hint={'x':.2,'y':self.y_pos})
         if instance.text == 'LET':
-            exp = LetLayout(self.line_number, self.current_variable_names, pos_hint={'x':.2,'y':self.y_pos})   
+            exp = LetLayout(self.line_number, self.current_variable_names, pos_hint={'x': .2, 'y': self.y_pos})
         elif instance.text == 'PRINT':
-            exp = PrintLayout(self.line_number, pos_hint={'x':.2,'y':self.y_pos})
+            exp = PrintLayout(self.line_number, pos_hint={'x': .2, 'y': self.y_pos})
         elif instance.text == 'GOTO':
-            exp = GotoLayout(self.line_number, pos_hint={'x':.2, 'y':self.y_pos})
+            exp = GotoLayout(self.line_number, pos_hint={'x': .2, 'y': self.y_pos})
         elif instance.text == 'IF':
-            exp = IfLayout(self.line_number, self.current_variable_names, pos_hint = {'x':.2, 'y':self.y_pos})
+            exp = IfLayout(self.line_number, self.current_variable_names, pos_hint={'x': .2, 'y': self.y_pos})
         elif instance.text == 'GOSUB':
-            exp = GoSubLayout(self.line_number, pos_hint ={'x':.2, 'y':self.y_pos})
+            exp = GoSubLayout(self.line_number, pos_hint={'x': .2, 'y': self.y_pos})
         elif instance.text == 'RETURN':
-            exp = ReturnLayout(self.line_number,  pos_hint ={'x':.2, 'y':self.y_pos})
+            exp = ReturnLayout(self.line_number,  pos_hint={'x': .2, 'y': self.y_pos})
         elif instance.text == 'END':
-            exp = EndLayout(self.line_number, pos_hint ={'x':.2, 'y':self.y_pos})
+            exp = EndLayout(self.line_number, pos_hint={'x': .2, 'y': self.y_pos})
 
         self.line_number += 1
         # bind the delete event when user clicks on the delete button
-        exp.btn_delete.fbind('on_press', self.delete_expression, expression = exp)
+        exp.btn_delete.fbind('on_press', self.delete_expression, expression=exp)
         
         exp.draw()
         self.layout.add_widget(exp)
@@ -150,7 +147,7 @@ class Workspace(ScrollView):
     Delete each expression from the workspace. This method is triggered when delete button is clicked
     """
 
-    def delete_expression(self,instance, expression):
+    def delete_expression(self, instance, expression):
         self.layout.remove_widget(expression)
         self.expression_list.remove(expression)
         #self.line_number -= 1
@@ -169,9 +166,9 @@ class Output(GridLayout):
     def __init__(self, **kwargs):
         super(Output, self).__init__(**kwargs)
         
-        self.comment = TextInput(text='Output is shown here..', width= 800, height=200)
-        self.btn_clear = Button(text='Clear', size_hint =(None, None), size=(200,44),pos_hint={'x':.1, 'y':.6})
-        self.btn_clear.bind(on_press =self.clear_event)
+        self.comment = TextInput(text='Output is shown here..', width=800, height=200)
+        self.btn_clear = Button(text='Clear', size_hint=(None, None), size=(200, 44), pos=(600, 0))
+        self.btn_clear.bind(on_press=self.clear_event)
     
     def draw(self):
         self.add_widget(self.comment)
@@ -203,17 +200,16 @@ class MainLayout(GridLayout):
         self.Interpreter = Interpreter()
         self.command_stack = []
 
-        self.cols =2
-        self.orientation = "verical"
+        self.cols = 2
+        self.orientation = "vertical"
         self.padding = 10
-        
-        
-        self.workspace = Workspace( )
+
+        self.workspace = Workspace()
         self.command_panel = CommandPanel(self.workspace)
         self.output = Output()
 
-        self.spn_menu = Spinner( text = 'Menu', values =('New', 'Save','RUN','Exit'), size_hint =(None, None), size=(200,44), pos_hint={'x':.1, 'y':.9})
-        self.spn_menu.bind(text = self.menu_option_selected_event)
+        self.spn_menu = Spinner(text='Menu', values=('New', 'Save', 'RUN', 'Exit'), size_hint =(None, None), size=(200, 44), pos_hint={'x': .1, 'y': .9})
+        self.spn_menu.bind(text=self.menu_option_selected_event)
         
         self.command_panel.draw(self.spn_menu)
         self.command_panel.add_expression_btn('LET')
@@ -242,16 +238,15 @@ class MainLayout(GridLayout):
         error_msgs = []
 
         for each_exp in self.workspace.get_expressions():
-            expression_line =  each_exp.get_expression()
+            expression_line = each_exp.get_expression()
             has_expressions = True
             if expression_line[0] is "Error":
                 error_msgs.append(expression_line[1])
             else:            
                 
-                i.add_line(each_exp.get_line_number(),expression_line)
+                i.add_line(each_exp.get_line_number(), expression_line)
 
-       
-        if has_expressions == False:
+        if has_expressions is False:
             self.output.clear()
             self.output.write_error(["Nothing to run"])
             return 0
@@ -264,18 +259,18 @@ class MainLayout(GridLayout):
         i.run()
         output = i.get_output()
         variables = i.get_variables()
-        self.workspace.update_variable_names(variables.keys())
-      
+        self.workspace.update_variable_names(sorted(variables))
 
-        self.output.add_text("\n Output : \n");
+        self.output.add_text("\n Output : \n")
         for value in output:
-            self.output.add_text(' ' + str(value)+ '\n')
+            self.output.add_text(' ' + str(value)+'\n')
 
         self.output.add_text('\n Memory: \n')
         self.output.add_text(' Variable \t Value \n')
-        for var in variables.keys():
+        for var in sorted(variables):
             value = ' \t' + var + ' \t\t\t ' + str(variables[var]) + '\n'
             self.output.add_text(' ' + str(value))
+        self.output.add_text('-------------------------------------------')
     
     """
     When user selects a menu option from the spinner
@@ -290,18 +285,18 @@ class MainLayout(GridLayout):
         elif option == 'Exit':
             sys.exit()
         elif option == 'RUN':
-           self.spn_menu.text = 'Menu'
-           self.run_app()
+            self.spn_menu.text = 'Menu'
+            self.run_app()
+
 
 class KivyApp2(App):
     """
-    Main Kivy Class to run the app.Simply creates instance of Mainlayout to iniitate.
+    Main Kivy Class to run the app.Simply creates instance of Mainlayout to initiate.
     """
     def build(self):
-        main = MainLayout();
+        main = MainLayout()
         return main
 
 
 if __name__ == '__main__':
     KivyApp2().run()
-                    

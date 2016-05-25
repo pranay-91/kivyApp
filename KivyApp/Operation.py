@@ -9,16 +9,16 @@
 """
 from abc import ABCMeta, abstractmethod
 
+
 class Operation(object):
     __metaclass__ = ABCMeta
-       
-       
+
     """
     Each subclass operation class must implement compute method. Compute runs the operation amd returns the result
     """
     @abstractmethod
     def operate(self, memory):
-        print 'here' 
+        print('here')
 
 
  

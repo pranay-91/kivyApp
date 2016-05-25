@@ -10,6 +10,7 @@
 import abc
 from Operation import Operation
 
+
 class Print(Operation):
     def __init__(self, val):
         self.val = val
@@ -23,8 +24,8 @@ class Print(Operation):
         if memory.is_variable(self.val):
      
         # if it is a variable, get the value
-            val= memory.get_value(self.val)  
-        print val
+            val = memory.get_value(self.val)
+        print(val)
         return val
 
 
