@@ -260,6 +260,7 @@ class MainLayout(GridLayout):
             self.output.clear()
             self.output.write_error(error_msgs)
             return 0           
+        i.clear_output()
         i.run()
         output = i.get_output()
         variables = i.get_variables()
@@ -284,6 +285,7 @@ class MainLayout(GridLayout):
         if option == 'New':
             self.spn_menu.text = 'Menu'
             self.workspace.clear()
+            #self.Interpreter = Interpreter()
             
         elif option == 'Exit':
             sys.exit()

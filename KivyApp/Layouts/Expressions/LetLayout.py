@@ -46,11 +46,7 @@ class LetLayout(ExpressionLayout):
         #self.txt_val2 = TextInput(multiline = False, text ="0", size_hint=(.1,1))
         self.txt_val2 = self.get_cmb_variables()
 
-        self.spn_operator.bind(text = self.on_select)
-   
 
-    def on_select(self, instance, text):
-        self.spn_operator.add_widget(TextInput(text=self.spn_operator.text))
     """
     Add the widgets to the layout
     """

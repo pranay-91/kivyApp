@@ -42,6 +42,8 @@ class Interpreter(object):
     def write_error(self, msg):
         self.output = ["Error", msg]
 
+    def clear_output(self):
+        self.output =[]
 
     def run(self):
         """
@@ -50,9 +52,9 @@ class Interpreter(object):
         """
         line_number = sorted(self.lines.keys())
         sub_stack = []
-        i =0
-        while i < len(line_number):
-            current_no = line_number[i]
+        index =0
+        while index < len(line_number):
+            current_no = line_number[index]
             current_line = self.lines[current_no]
 
             if current_line[0] == 'END':
@@ -62,15 +64,18 @@ class Interpreter(object):
                 if int(current_line[1]) == current_no:
                     self.write_error("Cannot Goto same line number")
                     return 0        
+                
+                if current_line[0] == 'GOSUB':
+                    sub_stack.append(index+1)
+                    print index
 
                 if int(current_line[1]) in line_number:
-                    i = line_number.index(int(current_line[1]))               
+                    index = line_number.index(int(current_line[1])) 
+                    print index              
                 else:
                     self.write_error("Line Number does not exist")
                     return 0
    
-                if current_line[0] == 'GOSUB':
-                    sub_stack.append(i+1)
                      
             elif current_line[0] == 'RETURN':
                 if len(sub_stack) < 1:
@@ -78,7 +83,7 @@ class Interpreter(object):
                     self.write_error("RETURN WITHOUT GOSUB")
                     return 0
                 else:
-                    i = sub_stack.pop()
+                    index = sub_stack.pop()
             
             else:           
                 op = self.op_maker.create_operation(current_line)
@@ -95,9 +100,9 @@ class Interpreter(object):
                     self.output.append(result)
            
                 if current_line[0] == "IF" and result == True:
-                    i =line_number.index(int(current_line[5]))
+                    index =line_number.index(int(current_line[5]))
                 else:
-                    i+=1
+                    index+=1
 
             
 
