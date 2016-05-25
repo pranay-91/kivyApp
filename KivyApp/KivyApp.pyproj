@@ -28,6 +28,9 @@
     <Compile Include="Addition.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Division.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Expression.py">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +96,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Memory.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Multiplication.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Operation.py">

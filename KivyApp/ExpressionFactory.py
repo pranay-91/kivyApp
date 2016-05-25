@@ -10,6 +10,8 @@ from Memory import Memory
 from Addition import Addition
 from Subtraction import Subtraction
 from Compare import Compare
+from Multiplication import Multiplication
+from Division import Division
 
 class ExpressionFactory(object):
     """
@@ -20,6 +22,10 @@ class ExpressionFactory(object):
             return Addition(lhs, rhs)
         elif op == '-':
             return Subtraction(lhs,rhs)
+        elif op == '*':
+            return Multiplication(lhs,rhs)
+        elif op == '/':
+            return Division(lhs,rhs)
         else:
             return Compare(lhs, op, rhs)
 

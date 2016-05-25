@@ -39,11 +39,11 @@ class LetLayout(ExpressionLayout):
 
         self.txt_var_name = TextInput(multiline = False, size_hint=(.1,1))
         self.lbl_equal = Label(text="=",  size_hint=(.1,1))
-        #self.txt_val1 = TextInput(multiline = False, text ="0", size_hint=(.1,1))       
+    
         self.txt_val1 = self.get_cmb_variables()
 
-        self.spn_operator = Spinner(text = '', values =('','-', '+'), size_hint=(.1,1))
-        #self.txt_val2 = TextInput(multiline = False, text ="0", size_hint=(.1,1))
+        self.spn_operator = Spinner(text = '', values =('','-', '+','*', '/'), size_hint=(.1,1))
+     
         self.txt_val2 = self.get_cmb_variables()
 
 
@@ -68,6 +68,6 @@ class LetLayout(ExpressionLayout):
            return ["Error", msg]
         #if self.txt_val1.text.isnumeric() == False and self.spn_operator.text!='':
         #   msg = "Line number: " + str(self.get_line_number()) + ". String operation is not allowed."
-           return ["Error", msg]
+        #   return ["Error", msg]
         else:
            return [self.name, self.txt_var_name.text, self.lbl_equal.text, str(self.txt_val1.text), self.spn_operator.text, str(self.txt_val2.text)]
